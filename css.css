@@ -1,0 +1,111 @@
+
+
+html {
+	height: 100%;
+}
+body {
+  height: 100%;
+  width:800;
+  margin: auto;
+  background: lightblue;
+}
+
+header {
+	margin: auto;
+	border-bottom: 2px darkgrey solid;
+	margin-bottom: 20px;
+}
+main {
+	margin: auto;
+}
+header > * {
+	display: inline-block;
+	margin: 2px;
+}
+
+.seethrough {
+	background: transparent;
+	border: none;
+	display: inline;
+	width:50%;
+	font-size: inherit;
+	font-style: inherit;
+	font-family: inherit;
+}
+
+#counter{
+	display: inline-block;
+	float: right;
+	margin-top:10px;
+}
+
+#control {
+	display: inline-block;
+	width: 180px;
+
+	float: left;
+	vertical-align: top;
+}
+#control p {
+	margin: 5 0;
+}
+
+main > :not(#control) {
+	margin-left: 210px;
+}
+#game {
+	display: inline-block;
+	margin: auto;
+}
+
+#game table{
+	height: 100%;
+	width:100%;
+	table-layout: fixed;
+	border-collapse: collapse;
+	font-size: x-small;
+}
+
+#game table.openborder {
+	border: dotted grey medium;
+}
+
+#game table.closedborder {
+	border: solid grey medium;
+}
+#game table td {
+	text-align: center;
+	vertical-align: middle;
+	border: thin lightgrey solid;
+}
+
+#game td.empty {
+	background-color: white;
+}
+
+
+
+#game td.O, #game.turn1 td.empty:hover {
+	background-color: grey;
+}
+
+#game td.X, #game.turn-1 td.empty:hover {
+	background-color: red;
+}
+
+
+
+#gameover {
+	display: table;
+	background: rgba(100, 100, 100, 0.6);
+	font-size: 45px;
+	position: absolute;
+	text-align: center;
+	color: orange;
+}
+#gameover > div {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+
