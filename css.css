@@ -93,6 +93,10 @@ main > :not(#control) {
 	background-color: red;
 }
 
+#game td.win {
+	border:thick solid black;
+}
+
 
 
 #gameover {

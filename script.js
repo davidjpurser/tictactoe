@@ -117,7 +117,7 @@ $(document).ready(function(){
     var td = game[coord.x][coord.y].td;
     var state = gameState(coord);
 
-    td.removeClass("snake empty head");
+    td.removeClass("snake empty head win");
     switch(state) {
         case X:
             td.addClass("X");
@@ -129,6 +129,9 @@ $(document).ready(function(){
             td.addClass("empty");
     }
 
+    if (game[coord.x][coord.y].win) {
+      td.addClass("win "+ game[coord.x][coord.y].win);
+    }
 
   }
 
@@ -175,6 +178,7 @@ $(document).ready(function(){
     game[i][j] = {
       state: B,
       td: $('<td>'),
+      coord: get(i,j)
     };
     game[i][j].td.data("coord", get(i,j));
     rerender(get(i,j))
@@ -190,6 +194,11 @@ $(document).ready(function(){
     game[coord.x][coord.y].state = state;
     rerender(coord);
   }
+  function setWin(coord, style) {
+    game[coord.x][coord.y].win = style;
+    rerender(coord);
+  }
+
 
   function isWinning(coord) {
 
@@ -204,7 +213,8 @@ $(document).ready(function(){
     
     if (winByWidth) {
       game.every(function(v) {
-        return v[coord.y].win == "h";
+        setWin(v[coord.y].coord, "h");
+        return true;
       });
       return true;
     } 
@@ -215,16 +225,18 @@ $(document).ready(function(){
     
     if (winByHeight) {
       game[coord.x].every(function(v) {
-        return v.win == "v";
+        setWin(v.coord, "v");
+        return true;
       });
       return true;
     } 
 
-    var diag = [[N,W,S,E],[N,E,S,W]].some(function(dirs) {
+    var diag = [[N,W,S,E,"se"],[N,E,S,W,"sw"]].some(function(dirs) {
        var currentCoord = coord;
         while (!currentCoord.outofbounds) {
           currentCoord = getInDir(getInDir(currentCoord, dirs[0]), dirs[1]);
         }
+        var start = currentCoord;
         var count =0;
         do{
           currentCoord = getInDir(getInDir(currentCoord, dirs[2]), dirs[3]);
@@ -232,6 +244,11 @@ $(document).ready(function(){
         } while  (!currentCoord.outofbounds && gameState(currentCoord) == check) ;
         count--;
         if (count >= Math.min(config.width, config.height)) {
+          currentCoord = start;
+          for (var i =0 ; i < Math.min(config.width, config.height); i++) {
+            currentCoord = getInDir(getInDir(currentCoord, dirs[2]), dirs[3]);
+            setWin(currentCoord, "d" + dirs[4]);
+          }
           return true;
         }
 
@@ -377,7 +394,7 @@ $(document).ready(function(){
   $('#hide').hide();
   format();
   retreiveLocalStorage();
-
+  start();
 
 
 
