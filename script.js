@@ -22,8 +22,11 @@ $(document).ready(function(){
   //game array
   var game = [];
 
-  //countsPlay = 0;
-
+  var placed = 0;
+  var wins = {
+    X: 0,
+    O: 0
+  };
   
 
   /***************************/
@@ -71,6 +74,10 @@ $(document).ready(function(){
     return isNaN(config[prop]) ? configs.Easy[prop] : config[prop];
   }
 
+  function isO(state) {
+    return state == O;
+  }
+
   function start(){
 
     $('#about').hide();
@@ -89,6 +96,7 @@ $(document).ready(function(){
     main.html("");
     var table = $('<table/>');
 
+    var placed = 0;
 
     main.append(table);
 
@@ -135,6 +143,11 @@ $(document).ready(function(){
 
   }
 
+  function writeCount() {
+
+    var winString = "X: " + wins.X + " O: " + wins.O;
+    $('#counter').html(winString);
+  }
 
 
 
@@ -326,6 +339,7 @@ $(document).ready(function(){
 
     if (gs == B) {
       setGameState(coord, currentState);
+      placed++;
       $('#game').removeClass("turn" + currentState);
       currentState = - currentState;
       $('#game').addClass("turn" + currentState);
@@ -333,7 +347,17 @@ $(document).ready(function(){
 
     if (isWinning(coord)) {
       endGame();
+      if (isO(currentState)){
+        wins.X++;
+      } else {
+        wins.O++;
+      }
+      writeCount();
+
+    } else if (placed == config.width * config.height) {
+      endGame();
     }
+
 
   }); 
 

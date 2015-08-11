@@ -76,7 +76,11 @@ main > :not(#control) {
 #game table td {
 	text-align: center;
 	vertical-align: middle;
-	border: thin lightgrey solid;
+	border: thin lightgray solid;
+	background: white;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center center;
 }
 
 #game td.empty {
@@ -86,11 +90,11 @@ main > :not(#control) {
 
 
 #game td.O, #game.turn1 td.empty:hover {
-	background-color: grey;
+	background-image: url('O.png');
 }
 
 #game td.X, #game.turn-1 td.empty:hover {
-	background-color: red;
+	background-image: url('X.png');
 }
 
 #game td.win {
