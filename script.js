@@ -96,7 +96,7 @@ $(document).ready(function(){
     main.html("");
     var table = $('<table/>');
 
-    var placed = 0;
+    placed = 0;
 
     main.append(table);
 
@@ -225,9 +225,8 @@ $(document).ready(function(){
       });
     
     if (winByWidth) {
-      game.every(function(v) {
+      game.forEach(function(v) {
         setWin(v[coord.y].coord, "h");
-        return true;
       });
       return true;
     } 
@@ -237,14 +236,20 @@ $(document).ready(function(){
       });
     
     if (winByHeight) {
-      game[coord.x].every(function(v) {
+      game[coord.x].forEach(function(v) {
         setWin(v.coord, "v");
-        return true;
       });
       return true;
     } 
 
-    var diag = [[N,W,S,E,"se"],[N,E,S,W,"sw"]].some(function(dirs) {
+    /*
+    Slightly odd logic which checks the diagonal. 
+    First it goes back to the top left until out of bounds and then tracks
+    right again to the bottom right until out of bounds.
+    It checks they are all the same on that angle and then checks there have
+    been enough. Marking them as the winning ones.
+    */
+    return diag = [[N,W,S,E,"se"],[N,E,S,W,"sw"]].some(function(dirs) {
        var currentCoord = coord;
         while (!currentCoord.outofbounds) {
           currentCoord = getInDir(getInDir(currentCoord, dirs[0]), dirs[1]);
@@ -266,12 +271,6 @@ $(document).ready(function(){
         }
 
     });
-   if (diag){
-    return true;
-   }
-
-
-    return false;
   }
 
   /*********/
@@ -319,7 +318,7 @@ $(document).ready(function(){
       var sqw = config.width;
       var sqh = config.height;
     }
-    var wwidth = $(window).width() - $('#control').width() -20;
+    var wwidth = $(window).width() - $('#control').width() -40;
     var wheight = $(window).height() - $('header').outerHeight() - 30;
     var min = Math.min(wwidth /sqw, wheight/sqh);
 
